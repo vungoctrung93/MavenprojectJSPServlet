@@ -3,6 +3,9 @@ package com.controllers.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.dao.UserDao;
+import com.model.LoginModel;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,9 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import com.dao.util.UserDao;
-import com.model.dao.LoginModel;
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"}) //set in web.xml
 public class LoginController extends HttpServlet {
@@ -35,8 +35,8 @@ public class LoginController extends HttpServlet {
 
         //Removes user account from table and reloads table
         if (action.equalsIgnoreCase("remove")) {
-            int userid = Integer.parseInt(request.getParameter("userid"));
-            dao.deleteAccount(userid);
+            String username = request.getParameter("username").trim();
+            dao.deleteAccount(username);
             redirectPage = ADMINPG;
             request.setAttribute("users", dao.listUsers());
         } //Loads Admin page with database data in table
@@ -46,8 +46,8 @@ public class LoginController extends HttpServlet {
         } //Finds user by ID and updates database and table with new data.
         else if (action.equalsIgnoreCase("edit")) {
             redirectPage = EDITPG;
-            int userid = Integer.parseInt(request.getParameter("userid")); //get this objects id
-            LoginModel user = dao.getUserByID(userid); //user object
+            String username = request.getParameter("username").trim(); //get this objects id
+            LoginModel user = dao.getUserByUserName(username); //user object
             request.setAttribute("user", user); //sends user data to jsp
         }
 
@@ -58,18 +58,20 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter pwOut = response.getWriter();
         //get input from jsp		
-        String em = request.getParameter("email");
+        String em = request.getParameter("username");
         String pw = request.getParameter("psword");
 
         //Validate Login with input
         if (dao.validateLogin(em, pw)) {
             //create session and store variables
             LoginModel user = dao.userSession(em);
-            HttpSession session = request.getSession();
-            session.setAttribute("username", user.getUsername());
-            session.setAttribute("email", em);
+            HttpSession session = request.getSession(false);
+            session.setAttribute("username", em);
+            session.setAttribute("fullname", user.getFullName());
+
             //load welcome page with session data
             RequestDispatcher view = request.getRequestDispatcher(WELCMPG);
+            
             view.forward(request, response);
 
         } //if input is not stored in database print error message and reload page

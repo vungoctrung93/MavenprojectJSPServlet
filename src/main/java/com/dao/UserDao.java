@@ -1,16 +1,15 @@
-package com.dao.util;
+package com.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.model.dao.LoginModel;
-import com.dao.util.DBUtil;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.dao.util.DBUtil;
+import com.model.LoginModel;
 
 public class UserDao {
 
@@ -27,7 +26,7 @@ public class UserDao {
         //Search database for email and password and return true if found
         try {
             PreparedStatement ps = conn
-                    .prepareStatement("select * from User where email=? and psword=?");
+                    .prepareStatement("select * from Users where username=? and psword=?");
             ps.setString(1, em);
             ps.setString(2, pw);
 
@@ -45,14 +44,14 @@ public class UserDao {
         LoginModel user = new LoginModel(); //create new user object
         try {
             PreparedStatement ps = conn
-                    .prepareStatement("select * from User where email=?");//search database for email
+                    .prepareStatement("select * from Users where username=?");//search database for email
             ps.setString(1, em);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                user.setUserID(rs.getInt("userID"));
-                user.setUsername(rs.getString("username"));
+                user.setUserName(rs.getString("username"));
+                user.setFullName(rs.getString("fullname"));
                 user.setPsword(rs.getString("psword"));
                 user.setEmail(rs.getString("email"));
             }
@@ -66,10 +65,11 @@ public class UserDao {
     public void createUser(LoginModel user) {
         try {
             PreparedStatement ps = conn
-                    .prepareStatement("insert into User(username,psword,email) values (?,?,?)");//add user to database
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPsword());
-            ps.setString(3, user.getEmail());
+                    .prepareStatement("insert into Users(username,fullname,psword,email) values (?,?,?,?)");//add user to database
+            ps.setString(1, user.getUserName());
+            ps.setString(2, user.getFullName());
+            ps.setString(3, user.getPsword());
+            ps.setString(4, user.getEmail());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,10 +80,11 @@ public class UserDao {
     public void editAccount(LoginModel user) {
         try {
             PreparedStatement ps = conn
-                    .prepareStatement("update User set username=?, psword=?" + " where userID=?"); //find user with id and update info
-            ps.setString(1, user.getUsername());
+                    .prepareStatement("update Users set fullname=?, psword=?, email=? where username=?"); //find user with id and update info
+            ps.setString(1, user.getFullName());
             ps.setString(2, user.getPsword());
-            ps.setInt(3, user.getUserID());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getUserName());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,11 +92,11 @@ public class UserDao {
     }
 
     //Remove user from database with specified id
-    public void deleteAccount(int userid) {
+    public void deleteAccount(String username) {
         try {
             PreparedStatement ps = conn
-                    .prepareStatement("delete from User where userID=?");
-            ps.setInt(1, userid);
+                    .prepareStatement("delete from Users where username=?");
+            ps.setString(1, username);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,11 +108,11 @@ public class UserDao {
         List<LoginModel> userList = new ArrayList<LoginModel>();
         try {
             Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from User");
+            ResultSet rs = st.executeQuery("select * from Users");
             while (rs.next()) {
                 LoginModel user = new LoginModel();
-                user.setUserID(rs.getInt("userID"));
-                user.setUsername(rs.getString("username"));
+                user.setUserName(rs.getString("username"));
+                user.setFullName(rs.getString("fullname"));
                 user.setPsword(rs.getString("psword"));
                 user.setEmail(rs.getString("email"));
                 userList.add(user);
@@ -125,17 +126,17 @@ public class UserDao {
     }
 
     //returns user info from specified id
-    public LoginModel getUserByID(int userid) {
+    public LoginModel getUserByUserName(String username) {
         LoginModel user = new LoginModel();
         try {
             PreparedStatement ps = conn
-                    .prepareStatement("select * from User where userID= ?");
-            ps.setInt(1, userid);
+                    .prepareStatement("select * from Users where username= ?");
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                user.setUserID(rs.getInt("userID"));
-                user.setUsername(rs.getString("username"));
+                user.setUserName(rs.getString("username"));
+                user.setFullName(rs.getString("fullname"));
                 user.setPsword(rs.getString("psword"));
                 user.setEmail(rs.getString("email"));
             }

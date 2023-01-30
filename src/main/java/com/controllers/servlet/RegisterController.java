@@ -3,15 +3,15 @@ package com.controllers.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.dao.UserDao;
+import com.model.LoginModel;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import com.dao.util.UserDao;
-import com.model.dao.LoginModel;
 
 @WebServlet(name = "Register", urlPatterns = {"/Register"}) //set in web.xml
 public class RegisterController extends HttpServlet {
@@ -33,15 +33,16 @@ public class RegisterController extends HttpServlet {
 
         //get input from jsp and store it in user object
         String un = request.getParameter("username");
+        String fn = request.getParameter("fullname");
         String pw = request.getParameter("psword");
         String email = request.getParameter("email");
-        String userID = request.getParameter("userid");
-        user.setUsername(un);
+        user.setFullName(un);
+        user.setFullName(fn);
         user.setPsword(pw);
         user.setEmail(email);
 
         //if there is no ID field a new user is being created and added to database
-        if (userID == null || userID.isEmpty()) {
+        if (un == null || un.isEmpty()) {
             dao.createUser(user);
             pwOut.print("Registration Successful! Please Login.");
             response.setContentType("text/html");
@@ -49,7 +50,7 @@ public class RegisterController extends HttpServlet {
             view.include(request, response); //index page is reloaded with text for new user to login
         } //if there is an ID field a user is being edited
         else {
-            user.setUserID(Integer.parseInt(userID));
+            user.setUserName(un);
             dao.editAccount(user);
             request.setAttribute("users", dao.listUsers());
             RequestDispatcher view = request.getRequestDispatcher(ADMINPG);

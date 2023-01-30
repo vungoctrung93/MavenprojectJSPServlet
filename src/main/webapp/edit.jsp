@@ -14,7 +14,7 @@
             <fieldset style= "margin:auto; text-align:center">
                 <div>
                     <label for="uid" >ID</label>
-                    <input class="theinput" type="text" readonly="readonly" name="userid" id="uid" value="<c:out value ="${user.userID}"/>" />
+                    <input class="theinput" type="text" readonly="readonly" name="username" id="uid" value="<c:out value ="${user.username}"/>" />
                 </div>
                 <div>
                     <label for="usnm">Username</label>

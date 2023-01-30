@@ -1,26 +1,26 @@
-package com.model.dao;
+package com.model;
 
 public class LoginModel {
 
-    private int userID;
     private String username;
+    private String fullname;
     private String email;
     private String psword;
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public String getUsername() {
+    public String getUserName() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUserName(String username) {
         this.username = username;
+    }
+
+    public String getFullName() {
+        return fullname;
+    }
+
+    public void setFullName(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {

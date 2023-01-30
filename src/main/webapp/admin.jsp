@@ -40,12 +40,12 @@
                     <tbody>
                         <c:forEach items="${users}" var="user">
                             <tr>
-                                <td><c:out value= "${user.userID}"/></td>
                                 <td><c:out value= "${user.username}"/></td>
+                                <td><c:out value= "${user.fullname}"/></td>
                                 <td><c:out value="${user.psword}"/></td>
                                 <td><c:out value= "${user.email}"/></td>
-                                <td><a data-toggle="modal" href="#editModal" id="<c:out value="${user.userID}"/>" class="edit-link" >Edit</a></td>
-                                <td><a href="Login?action=remove&userid=<c:out value="${user.userID}"/>">Remove</a></td>
+                                <td><a data-toggle="modal" href="#editModal" id="<c:out value="${user.username}"/>" class="edit-link" >Edit</a></td>
+                                <td><a href="Login?action=remove&username=<c:out value="${user.username}"/>">Remove</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -78,9 +78,9 @@
                 $(document).ready(function () {
                     //Sends id to servelet when Edit link is clicked
                     $(".edit-link").click(function () {
-                        var userid = $(this).attr('id');
+                        var username = $(this).attr('id');
                         var action = 'edit';
-                        var data = "action=" + action + "&userid=" + userid;
+                        var data = "action=" + action + "&username=" + username;
                         //Request Get, load response(edit Form ) in modal
                         $.ajax({
                             type: "Get",

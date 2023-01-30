@@ -25,7 +25,7 @@
                 <legend class="legend-bold">Login</legend>
                 <div>
                   <label>Username:</label>
-                  <input class="theinput" type="text" placeholder="Enter email" name="email" required />
+                  <input class="theinput" type="text" placeholder="Enter username" name="username" required />
                 </div>
                 <div>
                   <label>Password:</label>

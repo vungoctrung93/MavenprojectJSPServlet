@@ -19,7 +19,7 @@ public class Test {
                 //st = conn.createStatement();
                 //ResultSet rs = st.executeQuery("SELECT * FROM User");
                 PreparedStatement ps = conn
-                        .prepareStatement("select * from User where username=? and psword=?");
+                        .prepareStatement("select * from Users where username=? and psword=?");
                 ps.setString(1, "James");
                 ps.setString(2, "Cheese");
 

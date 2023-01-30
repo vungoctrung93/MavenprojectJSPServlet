@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mycompany</groupId>
-  <artifactId>NetBeansMavenproject</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>NetBeans</artifactId>
+  <version>Mavenproject</version>
   <packaging>war</packaging>
 
   <name>NetBeansMavenproject</name>
