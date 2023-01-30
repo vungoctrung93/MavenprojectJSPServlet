@@ -1,4 +1,4 @@
-package com.model.dao;
+package com.model;
 
 public class LoginModel {
 

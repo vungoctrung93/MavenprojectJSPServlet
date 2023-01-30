@@ -1,4 +1,4 @@
-package com.dao.util;
+package com.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.model.dao.LoginModel;
+import com.model.LoginModel;
 import com.dao.util.DBUtil;
 
 import java.util.ArrayList;

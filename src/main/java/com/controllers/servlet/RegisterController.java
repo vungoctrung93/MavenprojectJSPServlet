@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.dao.util.UserDao;
-import com.model.dao.LoginModel;
+import com.dao.UserDao;
+import com.model.LoginModel;
 
 @WebServlet(name = "Register", urlPatterns = {"/Register"}) //set in web.xml
 public class RegisterController extends HttpServlet {

@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import com.dao.util.UserDao;
-import com.model.dao.LoginModel;
+import com.dao.UserDao;
+import com.model.LoginModel;
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"}) //set in web.xml
 public class LoginController extends HttpServlet {
